@@ -8,13 +8,13 @@
 package org.seedstack.metrics.fixtures;
 
 import com.codahale.metrics.health.HealthCheck;
-import org.seedstack.seed.DiagnosticManager;
+import org.seedstack.seed.diagnostic.DiagnosticManager;
 
 import javax.inject.Inject;
 
 public class InjectedHealthCheck extends HealthCheck {
     @Inject
-    DiagnosticManager diagnosticManager;
+    private DiagnosticManager diagnosticManager;
 
     @Override
     protected Result check() throws Exception {

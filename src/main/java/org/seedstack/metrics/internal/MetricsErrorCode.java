@@ -7,15 +7,12 @@
  */
 package org.seedstack.metrics.internal;
 
-import org.seedstack.seed.ErrorCode;
+import org.seedstack.shed.exception.ErrorCode;
 
-/**
- * Enumerates error codes of metrics support.
- */
-public enum MetricsErrorCode implements ErrorCode {
+enum MetricsErrorCode implements ErrorCode {
     ERROR_ACCESSING_METRIC_FIELD,
-    INVALID_METRIC_TYPE,
     ERROR_EVALUATING_METRIC,
-    METRICS_REGISTRY_NOT_FOUND,
-    HEALTH_CHECK_REGISTRY_NOT_FOUND
+    HEALTH_CHECK_REGISTRY_NOT_FOUND,
+    INVALID_METRIC_TYPE,
+    METRICS_REGISTRY_NOT_FOUND
 }

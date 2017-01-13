@@ -15,11 +15,11 @@ import io.nuun.kernel.api.plugin.InitState;
 import io.nuun.kernel.api.plugin.context.Context;
 import io.nuun.kernel.api.plugin.context.InitContext;
 import io.nuun.kernel.api.plugin.request.ClasspathScanRequest;
-import io.nuun.kernel.core.AbstractPlugin;
-import org.seedstack.seed.core.internal.CorePlugin;
-import org.seedstack.seed.core.internal.metrics.HealthcheckProvider;
-import org.seedstack.seed.core.internal.metrics.MetricsProvider;
 import org.seedstack.seed.SeedException;
+import org.seedstack.seed.core.internal.AbstractSeedPlugin;
+import org.seedstack.seed.core.internal.dependency.DependencyPlugin;
+import org.seedstack.seed.core.internal.metrics.HealthCheckProvider;
+import org.seedstack.seed.core.internal.metrics.MetricsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +33,7 @@ import java.util.Set;
 /**
  * This plugin provides support for the Metrics monitoring library (https://dropwizard.github.io/metrics/).
  */
-public class MetricsPlugin extends AbstractPlugin {
+public class MetricsPlugin extends AbstractSeedPlugin {
     private static final Logger LOGGER = LoggerFactory.getLogger(MetricsPlugin.class);
 
     private MetricRegistry metricRegistry;
@@ -49,16 +49,22 @@ public class MetricsPlugin extends AbstractPlugin {
     }
 
     @Override
+    public Collection<Class<?>> dependencies() {
+        return Lists.newArrayList(DependencyPlugin.class);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
-    public InitState init(InitContext initContext) {
-        CorePlugin corePlugin = initContext.dependency(CorePlugin.class);
-        Optional<MetricsProvider> metricsProvider = corePlugin.getDependency(MetricsProvider.class);
+    public InitState initialize(InitContext initContext) {
+        DependencyPlugin dependency = initContext.dependency(DependencyPlugin.class);
+        Optional<MetricsProvider> metricsProvider = dependency.getDependency(MetricsProvider.class);
+        ;
         if (!metricsProvider.isPresent()) {
             throw SeedException.createNew(MetricsErrorCode.METRICS_REGISTRY_NOT_FOUND);
         }
         metricRegistry = metricsProvider.get().getMetricRegistry();
 
-        Optional<HealthcheckProvider> healthCheckProvider = corePlugin.getDependency(HealthcheckProvider.class);
+        Optional<HealthCheckProvider> healthCheckProvider = dependency.getDependency(HealthCheckProvider.class);
         if (!healthCheckProvider.isPresent()) {
             throw SeedException.createNew(MetricsErrorCode.HEALTH_CHECK_REGISTRY_NOT_FOUND);
         }
@@ -83,11 +89,6 @@ public class MetricsPlugin extends AbstractPlugin {
         for (Map.Entry<String, HealthCheck> healthCheckEntry : healthChecks.entrySet()) {
             healthCheckRegistry.register(healthCheckEntry.getKey(), healthCheckEntry.getValue());
         }
-    }
-
-    @Override
-    public Collection<Class<?>> requiredPlugins() {
-        return Lists.<Class<?>>newArrayList(CorePlugin.class);
     }
 
     @Override

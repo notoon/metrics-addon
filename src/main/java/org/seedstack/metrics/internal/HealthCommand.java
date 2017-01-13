@@ -11,9 +11,9 @@ import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.google.common.collect.ImmutableMap;
 import org.fusesource.jansi.Ansi;
-import org.seedstack.seed.spi.command.CommandDefinition;
-import org.seedstack.seed.spi.command.Option;
-import org.seedstack.seed.spi.command.PrettyCommand;
+import org.seedstack.seed.command.CommandDefinition;
+import org.seedstack.seed.command.Option;
+import org.seedstack.seed.command.PrettyCommand;
 
 import javax.inject.Inject;
 import java.util.Map;
