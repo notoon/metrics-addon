@@ -1,5 +1,6 @@
 ---
 title: "Metrics"
+addon: "Metrics"
 repo: "https://github.com/seedstack/metrics-addon"
 author: Adrien LAUER
 description: "Provides metrics and health monitoring using Codahale Metrics library."
@@ -7,21 +8,19 @@ tags:
     - monitoring
 zones:
     - Addons
-menu:
-    AddonMetrics:
-        weight: 10
+noMenu: true    
 ---
 
 SeedStack metrics add-on provides integration of [CodaHale Metrics](http://metrics.dropwizard.io/) to monitor applicative 
 metrics and health.<!--more-->
 
-# Dependency
+## Dependency
 
 To add the Metrics add-on to your project, add the following dependency: 
 
 {{< dependency g="org.seedstack.addons.metrics" a="metrics" >}}
 
-# Metrics
+## Metrics
 
 Five types of metrics can be measured:
 
@@ -31,7 +30,7 @@ Five types of metrics can be measured:
 * **Meter**, which measure the rate at which a set of events occur.
 * **Timer**, which combines an histogram of an event duration and a meter of the rate of its occurrence.
 
-## @Gauge
+### @Gauge
 
 To register a Gauge, use the <{{< java "com.codahale.metrics.annotation.Gauge" "@" >}} annotation on any method:
 
@@ -44,7 +43,7 @@ public class SomeClass {
 }
 ```
 
-## @CachedGauge
+### @CachedGauge
 
 You can also use its {{< java "com.codahale.metrics.annotation.CachedGauge" "@" >}} counterpart which allows for a more efficient
 reporting of value which are expensive to calculate:
@@ -58,7 +57,7 @@ public class SomeClass {
 }
 ```
 
-## @Counted
+### @Counted
 
 The {{< java "com.codahale.metrics.annotation.Counted" "@" >}} annotation will create a counter of the invocations of the
 method it is applied to:
@@ -75,7 +74,7 @@ public class SomeClass {
 Note that if the `monotonic` parameter is set to false, the counter is increment upon method entry and decremented upon
 method exit. If set to true, the counter only increments, effectively counting the number of method invocations.
 
-## @Metered
+### @Metered
 
 The {{< java "com.codahale.metrics.annotation.Metered" "@" >}} annotation will create a meter which will measure the
 rate of invocation of the method it is applied to:
@@ -89,7 +88,7 @@ public class SomeClass {
 }
 ```
 
-## @ExceptionMetered
+### @ExceptionMetered
     
 Its counter-part, the {{< java "com.codahale.metrics.annotation.ExceptionMetered" "@" >}} annotation will create a meter
 which will measure the rate of exception throwing of the method it is applied to:
@@ -103,7 +102,7 @@ public class SomeClass {
 }
 ```
 
-## @Metric
+### @Metric
 
     
 The more generic {{< java "com.codahale.metrics.annotation.Metric" "@" >}} annotation permits two different uses. When 
@@ -127,7 +126,7 @@ public class SomeClass {
     
 In both cases, it is up to the client code to interact with the metric.       
 
-## Registry
+### Registry
 
 If you need more control over the metrics registration process, you can inject the {{< java "com.codahale.metrics.MetricRegistry" >}}:
 
@@ -140,7 +139,7 @@ public class SomeClass {
     
 This also allows to interact programmatically with any registered metrics.
 
-# Health-checks
+## Health-checks
 
 An health check is a class that will check a specific state of the application and report it. To create an health check, 
 you must extend the {{< java "com.codahale.metrics.health.HealthCheck" >}} class and annotate it with the 
