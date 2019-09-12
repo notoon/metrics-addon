@@ -1,10 +1,11 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2019, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.metrics.internal;
 
 import com.codahale.metrics.Counter;
@@ -14,9 +15,10 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
 import com.google.inject.MembersInjector;
-import org.seedstack.seed.SeedException;
-
 import java.lang.reflect.Field;
+import java.util.Locale;
+import org.seedstack.seed.SeedException;
+import org.seedstack.shed.reflect.ReflectUtils;
 
 /**
  * Guice members injector that inject metric instances.
@@ -34,7 +36,7 @@ class MetricMembersInjector<T> implements MembersInjector<T> {
         this.name = name;
         this.absolute = absolute;
         this.field = field;
-        field.setAccessible(true);
+        ReflectUtils.makeAccessible(field);
     }
 
     @Override
@@ -45,7 +47,7 @@ class MetricMembersInjector<T> implements MembersInjector<T> {
 
             if (o != null) {
                 if (o instanceof Metric) {
-                    String fullName = determineName(field.getType().getSimpleName().toLowerCase());
+                    String fullName = determineName(field.getType().getSimpleName().toLowerCase(Locale.ENGLISH));
                     try {
                         metricRegistry.register(fullName, (Metric) o);
                     } catch (IllegalArgumentException e) {
@@ -62,13 +64,17 @@ class MetricMembersInjector<T> implements MembersInjector<T> {
                 Metric metric;
 
                 if (Meter.class.isAssignableFrom(field.getType())) {
-                    metric = metricRegistry.meter(determineName(Meter.class.getSimpleName().toLowerCase()));
+                    metric = metricRegistry.meter(determineName(Meter.class.getSimpleName()
+                            .toLowerCase(Locale.ENGLISH)));
                 } else if (Timer.class.isAssignableFrom(field.getType())) {
-                    metric = metricRegistry.timer(determineName(Timer.class.getSimpleName().toLowerCase()));
+                    metric = metricRegistry.timer(determineName(Timer.class.getSimpleName()
+                            .toLowerCase(Locale.ENGLISH)));
                 } else if (Counter.class.isAssignableFrom(field.getType())) {
-                    metric = metricRegistry.counter(determineName(Counter.class.getSimpleName().toLowerCase()));
+                    metric = metricRegistry.counter(determineName(Counter.class.getSimpleName()
+                            .toLowerCase(Locale.ENGLISH)));
                 } else if (Histogram.class.isAssignableFrom(field.getType())) {
-                    metric = metricRegistry.histogram(determineName(Histogram.class.getSimpleName().toLowerCase()));
+                    metric = metricRegistry.histogram(determineName(Histogram.class.getSimpleName()
+                            .toLowerCase(Locale.ENGLISH)));
                 } else {
                     throw SeedException.createNew(MetricsErrorCode.INVALID_METRIC_TYPE)
                             .put("type", field.getType().getName())

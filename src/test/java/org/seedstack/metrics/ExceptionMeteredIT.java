@@ -1,23 +1,11 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2019, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 package org.seedstack.metrics;
-
-import com.codahale.metrics.Meter;
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.Timer;
-import org.junit.Test;
-import org.seedstack.metrics.fixtures.MyException;
-import org.seedstack.seed.it.AbstractSeedIT;
-import org.seedstack.seed.it.KernelMode;
-import org.seedstack.seed.it.spi.ITKernelMode;
-
-import javax.inject.Inject;
 
 import static com.codahale.metrics.MetricRegistry.name;
 import static com.codahale.metrics.annotation.ExceptionMetered.DEFAULT_NAME_SUFFIX;
@@ -27,8 +15,21 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-@KernelMode(ITKernelMode.PER_TEST)
-public class ExceptionMeteredIT extends AbstractSeedIT {
+import com.codahale.metrics.Meter;
+import com.codahale.metrics.Metric;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
+import javax.inject.Inject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.seedstack.metrics.fixtures.MyException;
+import org.seedstack.seed.testing.LaunchMode;
+import org.seedstack.seed.testing.LaunchWith;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
+
+@RunWith(SeedITRunner.class)
+@LaunchWith(mode = LaunchMode.PER_TEST)
+public class ExceptionMeteredIT {
     @Inject
     private InstrumentedWithExceptionMetered instance;
 
@@ -38,7 +39,8 @@ public class ExceptionMeteredIT extends AbstractSeedIT {
     @Test
     public void anExceptionMeteredAnnotatedMethodWithPublicScope() throws Exception {
 
-        final Meter metric = registry.getMeters().get(name(InstrumentedWithExceptionMetered.class, "exception_metered_exceptionCounter"));
+        final Meter metric = registry.getMeters()
+                .get(name(InstrumentedWithExceptionMetered.class, "exception_metered_exceptionCounter"));
         assertMetricIsSetup(metric);
 
         assertThat("Metric intialises to zero",
@@ -83,7 +85,8 @@ public class ExceptionMeteredIT extends AbstractSeedIT {
     @Test
     public void anExceptionMeteredAnnotatedMethod_WithName() throws Exception {
 
-        final Meter metric = registry.getMeters().get(name(InstrumentedWithExceptionMetered.class, "exception_metered_n"));
+        final Meter metric = registry.getMeters()
+                .get(name(InstrumentedWithExceptionMetered.class, "exception_metered_n"));
         assertMetricIsSetup(metric);
 
         assertThat("Metric intialises to zero",
@@ -101,7 +104,6 @@ public class ExceptionMeteredIT extends AbstractSeedIT {
                 metric.getCount(),
                 is(1L));
     }
-
 
     @Test
     public void anExceptionMeteredAnnotatedMethod_WithAbsoluteName() throws Exception {
@@ -124,7 +126,6 @@ public class ExceptionMeteredIT extends AbstractSeedIT {
                 metric.getCount(),
                 is(1L));
     }
-
 
     @Test
     public void anExceptionMeteredAnnotatedMethod_WithPublicScopeButNoExceptionThrown() throws Exception {
@@ -272,7 +273,6 @@ public class ExceptionMeteredIT extends AbstractSeedIT {
                 is(1L));
     }
 
-
     @Test
     public void aMethodAnnotatedWithBothATimerAndAnExceptionCounter() throws Exception {
 
@@ -302,7 +302,6 @@ public class ExceptionMeteredIT extends AbstractSeedIT {
         assertThat("Timer Metric should be zero when initialised",
                 timedMetric.getCount(),
                 is(0L));
-
 
         assertThat("Error Metric should be zero when initialised",
                 errorMetric.getCount(),
@@ -365,7 +364,6 @@ public class ExceptionMeteredIT extends AbstractSeedIT {
         assertThat("Meter Metric should be zero when initialised",
                 ((Meter) meteredMetric).getCount(),
                 is(0L));
-
 
         assertThat("Error Metric should be zero when initialised",
                 ((Meter) errorMetric).getCount(),

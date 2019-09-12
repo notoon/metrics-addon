@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2019, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,9 +13,9 @@ import com.codahale.metrics.Histogram;
 import com.codahale.metrics.Meter;
 import com.codahale.metrics.Timer;
 import com.codahale.metrics.annotation.Metric;
-import org.seedstack.seed.it.ITBind;
+import org.seedstack.seed.Bind;
 
-@ITBind
+@Bind
 public class InstrumentedManually {
     @Metric
     private Histogram histogram = new Histogram(new ExponentiallyDecayingReservoir());

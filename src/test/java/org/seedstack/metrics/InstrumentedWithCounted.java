@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2019, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,27 +7,32 @@
  */
 package org.seedstack.metrics;
 
-import com.codahale.metrics.annotation.Timed;
-import org.seedstack.seed.it.ITBind;
+import com.codahale.metrics.annotation.Counted;
+import org.seedstack.seed.Bind;
 
-@ITBind
-public class InstrumentedWithTimed {
-    @Timed(name = "timed_things")
+@Bind
+public class InstrumentedWithCounted {
+    @Counted(name = "counted_things")
     public String doAThing() {
         return "poop";
     }
 
-    @Timed
+    @Counted(name = "monotonically_counted_things", monotonic = true)
+    public String doAMonotonicThing() {
+        return "poop";
+    }
+
+    @Counted
     String doAThingWithDefaultScope() {
         return "defaultResult";
     }
 
-    @Timed
+    @Counted
     protected String doAThingWithProtectedScope() {
         return "defaultProtected";
     }
 
-    @Timed(name = "timed_absoluteName", absolute = true)
+    @Counted(name = "counted_absoluteName", absolute = true)
     protected String doAThingWithAbsoluteName() {
         return "defaultProtected";
     }

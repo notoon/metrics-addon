@@ -5,8 +5,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-/**
- * Provides class to monitor an application.
- */
-
 package org.seedstack.metrics;
+
+import org.seedstack.seed.core.Seed;
+
+public class Demo {
+    public static void main(String[] args) throws Exception {
+        Seed.getLauncher().launch(args);
+    }
+}

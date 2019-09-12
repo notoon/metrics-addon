@@ -1,18 +1,18 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2019, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.metrics.internal;
 
 import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
 import com.google.inject.spi.InjectionListener;
-import org.seedstack.seed.SeedException;
-
 import java.lang.reflect.Method;
+import org.seedstack.seed.SeedException;
 
 /**
  * An injection listener which creates a gauge for the declaring class with the given name (or the

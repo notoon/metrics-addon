@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2019, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,22 +7,23 @@
  */
 package org.seedstack.metrics;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.Timer;
-import org.junit.Test;
-import org.seedstack.seed.it.AbstractSeedIT;
-import org.seedstack.seed.it.KernelMode;
-import org.seedstack.seed.it.spi.ITKernelMode;
-
-import javax.inject.Inject;
-
 import static com.codahale.metrics.MetricRegistry.name;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-@KernelMode(ITKernelMode.PER_TEST)
-public class TimedIT extends AbstractSeedIT {
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
+import javax.inject.Inject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.seedstack.seed.testing.LaunchMode;
+import org.seedstack.seed.testing.LaunchWith;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
+
+@RunWith(SeedITRunner.class)
+@LaunchWith(mode = LaunchMode.PER_TEST)
+public class TimedIT {
     @Inject
     private InstrumentedWithTimed instance;
 

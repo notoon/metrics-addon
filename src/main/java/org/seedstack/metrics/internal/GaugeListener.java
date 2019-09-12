@@ -1,10 +1,11 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2019, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
+
 package org.seedstack.metrics.internal;
 
 import com.codahale.metrics.MetricRegistry;
@@ -13,8 +14,8 @@ import com.codahale.metrics.annotation.Gauge;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
-
 import java.lang.reflect.Method;
+import java.util.Locale;
 
 /**
  * A listener which adds gauge injection listeners to classes with gauges.
@@ -32,7 +33,10 @@ class GaugeListener implements TypeListener {
         }
 
         if (annotation.name().isEmpty()) {
-            return MetricRegistry.name(klass, method.getName(), com.codahale.metrics.Gauge.class.getSimpleName().toLowerCase());
+            return MetricRegistry.name(klass,
+                    method.getName(),
+                    com.codahale.metrics.Gauge.class.getSimpleName().toLowerCase(
+                            Locale.ENGLISH));
         }
 
         return MetricRegistry.name(klass, annotation.name());
@@ -44,7 +48,9 @@ class GaugeListener implements TypeListener {
         }
 
         if (annotation.name().isEmpty()) {
-            return MetricRegistry.name(klass, method.getName(), com.codahale.metrics.Gauge.class.getSimpleName().toLowerCase());
+            return MetricRegistry.name(klass,
+                    method.getName(),
+                    com.codahale.metrics.Gauge.class.getSimpleName().toLowerCase(Locale.ENGLISH));
         }
 
         return MetricRegistry.name(klass, annotation.name());

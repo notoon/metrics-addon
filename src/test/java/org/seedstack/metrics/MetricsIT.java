@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2019, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,12 +8,16 @@
 package org.seedstack.metrics;
 
 import com.google.inject.Injector;
-import org.junit.Test;
-import org.seedstack.seed.it.AbstractSeedIT;
-
 import javax.inject.Inject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.seedstack.seed.testing.LaunchMode;
+import org.seedstack.seed.testing.LaunchWith;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
 
-public class MetricsIT extends AbstractSeedIT {
+@RunWith(SeedITRunner.class)
+@LaunchWith(mode = LaunchMode.PER_TEST)
+public class MetricsIT {
     @Inject
     private Injector injector;
 

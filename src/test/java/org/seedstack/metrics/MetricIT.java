@@ -1,5 +1,5 @@
-/**
- * Copyright (c) 2013-2016, The SeedStack authors <http://seedstack.org>
+/*
+ * Copyright © 2013-2019, The SeedStack authors <http://seedstack.org>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -7,16 +7,17 @@
  */
 package org.seedstack.metrics;
 
-import com.codahale.metrics.MetricRegistry;
-import com.google.inject.Injector;
-import org.junit.Test;
-import org.seedstack.seed.it.AbstractSeedIT;
-
-import javax.inject.Inject;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MetricIT extends AbstractSeedIT {
+import com.codahale.metrics.MetricRegistry;
+import com.google.inject.Injector;
+import javax.inject.Inject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.seedstack.seed.testing.junit4.SeedITRunner;
+
+@RunWith(SeedITRunner.class)
+public class MetricIT {
     @Inject
     private InstrumentedManually instance;
 
@@ -37,9 +38,12 @@ public class MetricIT extends AbstractSeedIT {
 
     @Test
     public void metrics_are_correctly_registered() throws Exception {
-        assertThat(registry.getCounters().get("org.seedstack.metrics.InstrumentedManually.counter.counter")).isNotNull();
-        assertThat(registry.getHistograms().get("org.seedstack.metrics.InstrumentedManually.histogram.histogram")).isNotNull();
-        assertThat(registry.getHistograms().get("org.seedstack.metrics.InstrumentedManually.histogram2.histogram")).isNotNull();
+        assertThat(registry.getCounters()
+                .get("org.seedstack.metrics.InstrumentedManually.counter.counter")).isNotNull();
+        assertThat(registry.getHistograms()
+                .get("org.seedstack.metrics.InstrumentedManually.histogram.histogram")).isNotNull();
+        assertThat(registry.getHistograms()
+                .get("org.seedstack.metrics.InstrumentedManually.histogram2.histogram")).isNotNull();
         assertThat(registry.getMeters().get("org.seedstack.metrics.InstrumentedManually.meter.meter")).isNotNull();
         assertThat(registry.getTimers().get("org.seedstack.metrics.InstrumentedManually.timer.timer")).isNotNull();
     }
