@@ -31,7 +31,7 @@ metrics:
     enabled: (Boolean)
     # Base path for HTTP publication (default is `/seed-metrics`)
     path: (String)
-    # If true, a minimal HTML menu is published on base path
+    # If true, a minimal HTML menu is published on base path (default is `false`)
     admin: (Boolean)
     # Application metrics
     metrics:
@@ -65,6 +65,23 @@ metrics:
       path: (String)
 ```
 {{% /config %}}  
+
+## HTTP publication
+ 
+In a Web application, the following information is published on HTTP by default:
+
+* Application metrics as JSON, on `<basePath>/metrics`.
+* Health check status as JSON, on `<basePath>/healthcheck`.
+* Ping (availability status), always responding with 200 OK when the application is up and running, on `<basePath>/ping`.
+
+The following information is not published by default for security reasons:
+
+* CPU profiling info as [GPerfTools](https://github.com/gperftools/gperftools) format, on `<basePath>/pprof`.
+* Thread dump as JSON, on `<basePath>/threads`.
+
+{{% callout info %}}
+The HTTP publication base path is `/seed-metrics` by default.
+{{% /callout %}}
 
 ## Usage
 
